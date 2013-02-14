@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+    <title id="pageTitle"><ui:insert name="title">Jsf2 plugin default page</ui:insert>
+    </title>
+
+    <link rel="stylesheet" href="#{resource['css:main.css']}"/>
+    <link rel="shortcut icon" href="#{resource['images:favicon.ico']}"
+          type="image/x-icon"/>
+    <style type="text/css">
+        body {
+            background-image: url("#{resource['images:ice-fade-bkgnd.gif']}");
+            background-repeat: repeat-x;
+            background-position: left top;
+        }
+        .body_container{
+            padding:0 5px;
+        }
+    </style>
+</h:head>
+<h:body>
+
+    <ui:insert name="header">
+        <div id="grailsLogo" class="logo"><a href="http://grails.org">
+            <img src="#{resource['images:grails_logo.png']}" alt="Grails" border="0"/>
+        </a>
+        </div>
+    </ui:insert>
+
+    <div class="body_container">
+        <ui:insert name="page-content">
+        </ui:insert>
+    </div>
+
+    <ui:insert name="footer">
+    </ui:insert>
+
+</h:body>
+</html>

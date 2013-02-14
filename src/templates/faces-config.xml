@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">
+
+    <application>
+        <el-resolver>
+            org.doc4web.grails.jsf.GrailsELResolver
+        </el-resolver>
+        <view-handler>
+            org.doc4web.grails.jsf.faces.ExtMultiViewHandler
+        </view-handler>
+    </application>
+
+    <converter>
+        <converter-for-class>
+            groovy.lang.Closure
+        </converter-for-class>
+        <converter-class>
+            org.doc4web.grails.jsf.faces.converter.ClosureConverter
+        </converter-class>
+    </converter>
+     <converter>
+        <converter-for-class>
+            java.net.URL
+        </converter-for-class>
+        <converter-class>
+            org.doc4web.grails.jsf.faces.converter.URLConverter
+        </converter-class>
+    </converter>
+     <converter>
+        <converter-for-class>
+            java.util.Currency
+        </converter-for-class>
+        <converter-class>
+            org.doc4web.grails.jsf.faces.converter.CurrencyConverter
+        </converter-class>
+    </converter>
+     <converter>
+        <converter-for-class>
+            java.util.Locale
+        </converter-for-class>
+        <converter-class>
+            org.doc4web.grails.jsf.faces.converter.LocaleConverter
+        </converter-class>
+    </converter>
+
+
+</faces-config>
