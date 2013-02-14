@@ -1,0 +1,16 @@
+
+INSTALL
+
+add this too your Bootstrap.grovy:
+
+class BootStrap {
+
+	...
+	
+    def init = { servletContext ->
+		def event = new ServletContextEvent(servletContext)
+		new ConfigureListener().contextInitialized( event )
+	}
+	
+	...
+}

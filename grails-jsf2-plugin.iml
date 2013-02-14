@@ -44,6 +44,13 @@
       <library name="Grails User Library (grails-jsf2-plugin)">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
+          <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/jstl/1.2/jstl-1.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/javax.faces/jsf-impl/jars/jsf-impl-2.0.2-FCS.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/javax.faces/jsf-api/jars/jsf-api-2.0.2-FCS.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.2/slf4j-api-1.5.2.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.1/commons-collections-3.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/antlr/antlr/2.7.6/antlr-2.7.6.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.3.1.GA/hibernate-core-3.3.1.GA.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

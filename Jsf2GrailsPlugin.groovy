@@ -1,3 +1,8 @@
+import com.sun.faces.config.ConfigManager
+import com.sun.faces.config.WebConfiguration
+import com.sun.faces.context.ExceptionHandlerFactoryImpl
+import com.sun.faces.context.ExternalContextFactoryImpl
+import com.sun.faces.context.PartialViewContextFactoryImpl
 import grails.util.Environment
 import grails.util.BuildSettingsHolder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
@@ -31,9 +36,9 @@ import org.doc4web.grails.jsf.RedirectDynamicMethod
 
 class Jsf2GrailsPlugin {
   // the plugin version
-  def version = "0.1"
+  def version = "0.2-SNAPSHOT"
   // the version or versions of Grails the plugin is designed for
-  def grailsVersion = "1.2.0 > *"
+  def grailsVersion = "2.2.0 > *"
   // the other plugins this plugin depends on
   def dependsOn = [:]
   // resources that are excluded from plugin packaging
@@ -89,8 +94,8 @@ h2. Extra methods for beans :
   def config = loadJsf2Config()
 
   def watchedResources = [
-          "file:./grails-app/beans/**/*Bean.groovy",
-          "file:./plugins/*/grails-app/beans/**/*Bean.groovy"
+          "file:./grails-app/controllers/**/*JsfController.groovy",
+          "file:./plugins/*/grails-app/controllers/**/*JsfController.groovy"
   ]
 
   def doWithWebDescriptor = {xml ->
@@ -163,12 +168,13 @@ h2. Extra methods for beans :
         }
       }
     }
-    if (xml.'mime-mapping'.size() == 0 || !xml.'mime-mapping'.find{it.'mime-type' == 'image/x-icon'}) {
-      xml << { 'mime-mapping' {
+
+	  def mimeMapping = xml.'mime-mapping'
+		mimeMapping + {
         'extension'('ico')
         'mime-type'('image/x-icon')
-      } }
-    }
+      	}
+
   }
 
   def doWithSpring = {
@@ -338,8 +344,17 @@ h2. Extra methods for beans :
       FactoryFinder.setFactory FactoryFinder.RENDER_KIT_FACTORY, RKfact.name
       FactoryFinder.setFactory FactoryFinder.FACES_CONTEXT_FACTORY, FCfact.name
 
-      /*println FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(ApplicationAssociate.ASSOCIATE_KEY)
-     Thread.currentThread().setContextClassLoader oldcl*/
+		FactoryFinder.setFactory FactoryFinder.EXCEPTION_HANDLER_FACTORY, ExceptionHandlerFactoryImpl.name
+		FactoryFinder.setFactory FactoryFinder.EXTERNAL_CONTEXT_FACTORY, ExternalContextFactoryImpl.name
+		FactoryFinder.setFactory FactoryFinder.PARTIAL_VIEW_CONTEXT_FACTORY, PartialViewContextFactoryImpl.name
+
+
+
+		// ConfigManager.getInstance().initialize(WebConfiguration.getInstance(context.getExternalContext()).getServletContext())
+		def wc = WebConfiguration.getInstance FacesContext.currentInstance.externalContext
+		ConfigManager.instance.initialize wc.servletContext
+		/*println FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(ApplicationAssociate.ASSOCIATE_KEY)
+		 Thread.currentThread().setContextClassLoader oldcl*/
 
     } catch (e) {
       e.printStackTrace()
@@ -348,7 +363,7 @@ h2. Extra methods for beans :
 
   private String translateEnvironnement() {
     switch (Environment.current.name) {
-      case Environment.DEVELOPMENT: return "Development";
+      case Environment.DEVELOPMENT: return "development";
       case Environment.TEST: return "SystemTest";
       default:
         return "Production";
@@ -356,6 +371,8 @@ h2. Extra methods for beans :
   }
 
   def registerBeanMethods(MetaClass mc, ApplicationContext ctx) {
+
+
     mc.el {String expr ->
       FacesContext fc = FacesContext.currentInstance
       return fc?.application?.evaluateExpressionGet(fc, expr, Object.class)

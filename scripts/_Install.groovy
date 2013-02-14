@@ -11,7 +11,6 @@ import groovy.text.SimpleTemplateEngine
 //    ant.mkdir(dir:"${basedir}/grails-app/jobs")
 //
 
-Ant.mkdir(dir: "${basedir}/grails-app/beans")
 
 if (!new File("${basedir}/grails-app/conf/Jsf2Config.groovy").exists()) {
 

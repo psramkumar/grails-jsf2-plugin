@@ -15,7 +15,7 @@ import org.codehaus.groovy.grails.commons.InjectableGrailsClass;
 public class GrailsBeanInjectableClass extends AbstractInjectableGrailsClass
         implements InjectableGrailsClass {
 
-    public static final String BEAN = "Bean";
+    public static final String BEAN = "JsfController";
 
     public GrailsBeanInjectableClass(Class clazz) {
         super(clazz, BEAN);
