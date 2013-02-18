@@ -41,7 +41,7 @@ class Jsf2GrailsPlugin {
 	// the plugin version
 	private static final String JSF_SUFFIX = "Jsf"
 
-	def version = "0.2-SNAPSHOT"
+	def version = "0.2"
 	// the version or versions of Grails the plugin is designed for
 	def grailsVersion = "2.2.0 > *"
 	// the other plugins this plugin depends on
