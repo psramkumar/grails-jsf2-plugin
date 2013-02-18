@@ -22,6 +22,26 @@
         <sourceRoots />
       </configuration>
     </facet>
+    <facet type="web" name="Web">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web-app/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/web-app" relative="/" />
+        </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/java" />
+          <root url="file://$MODULE_DIR$/src/groovy" />
+          <root url="file://$MODULE_DIR$/grails-app/utils" />
+          <root url="file://$MODULE_DIR$/grails-app/i18n" />
+          <root url="file://$MODULE_DIR$/grails-app/controllers" />
+          <root url="file://$MODULE_DIR$/grails-app/domain" />
+          <root url="file://$MODULE_DIR$/grails-app/services" />
+          <root url="file://$MODULE_DIR$/grails-app/taglib" />
+        </sourceRoots>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -36,27 +56,69 @@
       <sourceFolder url="file://$MODULE_DIR$/grails-app/taglib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="grails-2.3.0.BUILD-SNAPSHOT" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (grails-jsf2-plugin)">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
-          <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/jstl/1.2/jstl-1.2.jar!/" />
           <root url="jar://$USER_HOME_GRAILS$/ivy-cache/javax.faces/jsf-impl/jars/jsf-impl-2.0.2-FCS.jar!/" />
           <root url="jar://$USER_HOME_GRAILS$/ivy-cache/javax.faces/jsf-api/jars/jsf-api-2.0.2-FCS.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.2/slf4j-api-1.5.2.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.1/commons-collections-3.1.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/antlr/antlr/2.7.6/antlr-2.7.6.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.3.1.GA/hibernate-core-3.3.1.GA.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/javax.servlet/jstl/jars/jstl-1.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.slf4j/slf4j-api/jars/slf4j-api-1.5.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/commons-collections/commons-collections/jars/commons-collections-3.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/antlr/antlr/jars/antlr-2.7.6.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.hibernate/hibernate-core/jars/hibernate-core-3.3.1.GA.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/xml-resolver/xml-resolver/jars/xml-resolver-1.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/xerces/xercesImpl/jars/xercesImpl-2.8.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.sourceforge.nekohtml/nekohtml/jars/nekohtml-1.9.9.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/asm/asm-analysis/jars/asm-analysis-3.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/asm/asm-util/jars/asm-util-3.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/asm/asm-tree/jars/asm-tree-3.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/asm/asm-commons/jars/asm-commons-3.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/asm/asm/jars/asm-3.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.codehaus.groovy/groovy/jars/groovy-1.7-rc-2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.sf.ezmorph/ezmorph/jars/ezmorph-1.0.6.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.0.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.sf.json-lib/json-lib/jars/json-lib-2.3-jdk15.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.3.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.0.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.0.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.codehaus.groovy.modules.http-builder/http-builder/jars/http-builder-0.5.0.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/nekohtml/nekohtml/jars/nekohtml-1.9.6.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/nekohtml/xercesMinimal/jars/xercesMinimal-1.9.6.2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven.wagon/wagon-http-shared/jars/wagon-http-shared-1.0-beta-6.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven.wagon/wagon-http-lightweight/jars/wagon-http-lightweight-1.0-beta-6.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven.wagon/wagon-file/jars/wagon-file-1.0-beta-6.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-error-diagnostics/jars/maven-error-diagnostics-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-plugin-registry/jars/maven-plugin-registry-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-profile/jars/maven-profile-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-settings/jars/maven-settings-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-project/jars/maven-project-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-model/jars/maven-model-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/backport-util-concurrent/backport-util-concurrent/jars/backport-util-concurrent-3.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven.wagon/wagon-provider-api/jars/wagon-provider-api-1.0-beta-6.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-repository-metadata/jars/maven-repository-metadata-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-artifact-manager/jars/maven-artifact-manager-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-artifact/jars/maven-artifact-2.2.1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.codehaus.plexus/plexus-interpolation/jars/plexus-interpolation-1.11.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.codehaus.plexus/plexus-utils/jars/plexus-utils-1.5.15.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.codehaus.plexus/plexus-container-default/jars/plexus-container-default-1.0-alpha-9-stable-1.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/classworlds/classworlds/jars/classworlds-1.1-alpha-2.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/ant/ant/jars/ant-1.6.5.jar!/" />
+          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/org.apache.maven/maven-ant-tasks/jars/maven-ant-tasks-2.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="grails-jsf2-plugin-grailsPlugins" />
+    <orderEntry type="library" name="grails-2.2.0" level="application" />
   </component>
 </module>
 
