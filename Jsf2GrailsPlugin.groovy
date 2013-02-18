@@ -32,6 +32,7 @@ import org.springframework.web.context.request.RequestContextHolder as RCH
 import javax.faces.FactoryFinder
 import javax.faces.application.FacesMessage
 import javax.faces.context.FacesContext
+import javax.faces.event.PhaseListener
 import javax.faces.lifecycle.Lifecycle
 import javax.servlet.ServletContextEvent
 import java.lang.reflect.Modifier
@@ -49,13 +50,12 @@ class Jsf2GrailsPlugin {
 	def pluginExcludes = [
 			"grails-app/views/**",
 			"web-app/**",
-			"grails-app/beans/**",
+			"grails-app/controllers/**",
 			"grails-app/conf/UrlMappings.groovy",
 			"grails-app/conf/DataSource.groovy",
 			"grails-app/domain/**"
 	]
 
-	// TODO Fill in these fields
 	def author = "Stephane MALDINI"
 	def authorEmail = "smaldini@doc4web.com"
 	def title = "JSF 2"
@@ -93,8 +93,6 @@ h2. Extra methods for beans :
 
 	def loadAfter = ["controllers", "services"]
 
-//  def artefacts = [new BeanArtefactHandler()]
-
 	def config = loadJsf2Config()
 
 	def watchedResources = [
@@ -103,7 +101,7 @@ h2. Extra methods for beans :
 	]
 
 	def doWithWebDescriptor = { xml ->
-		def facesconfig_location = this.facesconfigLocation(application)
+		def facesconfig_location = getFacesconfigLocation(application)
 
 		def params = [
 				"javax.faces.application.CONFIG_FILES": facesconfig_location,
@@ -141,13 +139,6 @@ h2. Extra methods for beans :
 				}
 			}
 		}
-
-		/*def listeners = xml.listener[0]
-		listeners + {
-		  listener {
-			'listener-class'('com.icesoft.faces.util.event.servlet.ContextEventRepeater')
-		  }
-		}*/
 
 		servlets + {
 			servletsParams.each { key, value ->
@@ -235,7 +226,7 @@ h2. Extra methods for beans :
 		GrailsPluginManager pluginManager = getManager()
 
 		if (manager?.hasGrailsPlugin("groovyPages")) {
-			TagLibraryLookup gspTagLibraryLookup = ctx.getBean("gspTagLibraryLookup")
+			TagLibraryLookup gspTagLibraryLookup = ctx.getBean("gspTagLibraryLookup") as TagLibraryLookup
 			for (namespace in gspTagLibraryLookup.availableNamespaces) {
 				def propName = GrailsClassUtils.getGetterName(namespace)
 				def namespaceDispatcher = gspTagLibraryLookup.lookupNamespaceDispatcher(namespace)
@@ -287,15 +278,15 @@ h2. Extra methods for beans :
 		Lifecycle lifecycle = lifecycleFactoryImpl.getLifecycle(Lfact.DEFAULT_LIFECYCLE)
 
 		if (manager.hasGrailsPlugin("hibernate")) {
-			lifecycle.addPhaseListener applicationContext.getBean("grailsHibernatePhaseListener")
+			lifecycle.addPhaseListener applicationContext.getBean("grailsHibernatePhaseListener") as PhaseListener
 		}
 	}
 
 	def onChange = { event ->
 
-		if (event.source && event.source instanceof Class && application.isArtefactOfType(ControllerArtefactHandler.TYPE, event.source)
+		if (event.source && event.source instanceof Class && application.isArtefactOfType(ControllerArtefactHandler.TYPE, event.source as Class)
 				&& ((Class) event.source).name.endsWith(JSF_SUFFIX)) {
-			def beanClass = application.addArtefact(ControllerArtefactHandler.TYPE, event.source)
+			def beanClass = application.addArtefact(ControllerArtefactHandler.TYPE, event.source as Class)
 			def beanName = "${beanClass.propertyName}"
 			def scope = beanClass.getPropertyValue("scope")
 
@@ -328,7 +319,7 @@ h2. Extra methods for beans :
 
 	}
 
-	private facesconfigLocation(application) {
+	private String getFacesconfigLocation(application) {
 		if (application.warDeployed) {
 			return '/WEB-INF/faces-config.xml'
 		}
@@ -340,11 +331,13 @@ h2. Extra methods for beans :
 	private ConfigObject loadJsf2Config() {
 
 		def config = ConfigurationHolder.config
+		def currentEnvName = Environment.getCurrent().name
+		def slurper = new ConfigSlurper(currentEnvName)
 		GroovyClassLoader classLoader = new GroovyClassLoader(getClass().classLoader)
-		config.merge(new ConfigSlurper(GrailsUtil.environment).parse(classLoader.loadClass('DefaultJsf2Config')))
+		config.merge(slurper.parse(classLoader.loadClass('DefaultJsf2Config')))
 
 		try {
-			config.merge(new ConfigSlurper(GrailsUtil.environment).parse(getClass().classLoader.loadClass('Jsf2Config')))
+			config.merge(slurper.parse(getClass().classLoader.loadClass('Jsf2Config')))
 		}
 		catch (Exception ignored) {
 			// ignore, just use the defaults
@@ -385,9 +378,9 @@ h2. Extra methods for beans :
 	private String translateEnvironnement() {
 		switch (Environment.current.name) {
 			case Environment.DEVELOPMENT: return "development";
-			case Environment.TEST: return "SystemTest";
+			case Environment.TEST: return "test";
 			default:
-				return "Production";
+				return "production";
 		}
 	}
 
@@ -441,15 +434,9 @@ h2. Extra methods for beans :
 			render.invoke(delegate, "render", [action: arg])
 		}
 
-/*
-def forwardMethod = new ForwardMethod(ctx.getBean("grailsUrlMappingsHolder"))
-mc.forward = { Map params ->
-    forwardMethod.forward(delegate.request,delegate.response, params)
-}*/
-
 	}
 
-	def registerBeanMethodMissing(MetaClass mc, TagLibraryLookup lookup, ApplicationContext ctx) {
+	static def registerBeanMethodMissing(MetaClass mc, TagLibraryLookup lookup, ApplicationContext ctx) {
 		// allow controllers to call tag library methods
 		mc.methodMissing = { String name, args ->
 			args = args == null ? [] as Object[] : args

@@ -3,6 +3,7 @@ package org.doc4web.grails.jsf;
 import grails.util.GrailsNameUtils;
 import groovy.lang.MissingMethodException;
 import org.codehaus.groovy.grails.commons.ConfigurationHolder;
+import org.codehaus.groovy.grails.commons.ControllerArtefactHandler;
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest;
 import org.codehaus.groovy.grails.web.servlet.mvc.exceptions.CannotRedirectException;
 import org.springframework.context.ApplicationContext;
@@ -57,7 +58,7 @@ public class RenderDynamicMethod extends org.codehaus.groovy.grails.web.metaclas
         String bean = (String) argMap.get(RedirectDynamicMethod.BEAN_ARG);
         String action = (String) argMap.get(RedirectDynamicMethod.ACTION_ARG);
         String view = (String) argMap.get(RedirectDynamicMethod.VIEW_ARG);
-        String sourceBean = GrailsNameUtils.getLogicalPropertyName(target.getClass().getName(), BeanArtefactHandler.TYPE);
+        String sourceBean = GrailsNameUtils.getLogicalPropertyName(target.getClass().getName(), ControllerArtefactHandler.TYPE);
 
         if (action == null) {
             if (bean == null && view != null) {

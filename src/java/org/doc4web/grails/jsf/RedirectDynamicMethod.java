@@ -4,6 +4,7 @@ import com.sun.faces.util.Util;
 import grails.util.GrailsNameUtils;
 import groovy.lang.MissingMethodException;
 import org.codehaus.groovy.grails.commons.ConfigurationHolder;
+import org.codehaus.groovy.grails.commons.ControllerArtefactHandler;
 import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes;
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest;
 import org.codehaus.groovy.grails.web.servlet.mvc.exceptions.CannotRedirectException;
@@ -69,7 +70,7 @@ public class RedirectDynamicMethod extends org.codehaus.groovy.grails.web.metacl
 		String bean = (String) argMap.get(BEAN_ARG);
 		String action = (String) argMap.get(ACTION_ARG);
 		String view = (String) argMap.get(VIEW_ARG);
-		String sourceBean = GrailsNameUtils.getLogicalPropertyName(target.getClass().getName(), BeanArtefactHandler.TYPE);
+		String sourceBean = GrailsNameUtils.getLogicalPropertyName(target.getClass().getName(), ControllerArtefactHandler.TYPE);
 
 		if (action == null) {
 			if (bean != null) {

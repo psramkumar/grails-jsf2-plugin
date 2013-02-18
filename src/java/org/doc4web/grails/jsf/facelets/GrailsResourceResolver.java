@@ -3,9 +3,8 @@ package org.doc4web.grails.jsf.facelets;
 import grails.util.Environment;
 import grails.util.Metadata;
 import org.codehaus.groovy.grails.commons.ApplicationHolder;
-import org.codehaus.groovy.grails.commons.GrailsResourceUtils;
+import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.codehaus.groovy.grails.web.pages.GroovyPageResourceLoader;
-import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes;
 import org.springframework.core.io.Resource;
 import org.springframework.web.context.support.ServletContextResourceLoader;
 
@@ -30,22 +29,13 @@ public class GrailsResourceResolver extends ResourceResolver {
 	private ServletContextResourceLoader servletContextLoader;
 
 
-	public GrailsResourceResolver()
-	{
-		System.out.println("GrailsResourceResolver: constructor");
-		// Bugfix: ResourceResolver only during Development, SB, 2011-11-24
-		if (ApplicationHolder.getApplication().getMainContext().containsBean(GroovyPageResourceLoader.BEAN_ID))
-		{
-			System.out.println("GrailsResourceResolver: get groovyPageResourceLoader");
-
-			this.resourceLoader = (GroovyPageResourceLoader) ApplicationHolder.getApplication().getMainContext().getBean(GroovyPageResourceLoader.BEAN_ID);
+	public GrailsResourceResolver() {
+		if (getApplication().getMainContext().containsBean(GroovyPageResourceLoader.BEAN_ID)) {
+			this.resourceLoader = (GroovyPageResourceLoader) getApplication().getMainContext().getBean(GroovyPageResourceLoader.BEAN_ID);
 
 		}
-		else if (ApplicationHolder.getApplication().getMainContext().containsBean("groovyPageResourceLoaderJSF"))
-		{
-			System.out.println("GrailsResourceResolver: get groovyPageResourceLoaderJSF");
-
-			this.resourceLoader = (GroovyPageResourceLoader) ApplicationHolder.getApplication().getMainContext().getBean("groovyPageResourceLoaderJSF");
+		else if (getApplication().getMainContext().containsBean("groovyPageResourceLoaderJSF")) {
+			this.resourceLoader = (GroovyPageResourceLoader) getApplication().getMainContext().getBean("groovyPageResourceLoaderJSF");
 		}
 	}
 
@@ -56,12 +46,14 @@ public class GrailsResourceResolver extends ResourceResolver {
 		}
 		try {
 			return this.getResourceForUri(s).getURL();
-            /*return new URL("file", "",
-                    "PATH_TO_FACELETS_FILES_GOES_HERE" + s);*/
-		} catch (MalformedURLException e) {
+			/*return new URL("file", "",
+					"PATH_TO_FACELETS_FILES_GOES_HERE" + s);*/
+		}
+		catch (MalformedURLException e) {
 			e.printStackTrace();
 			return null;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 			return null;
 		}
@@ -85,14 +77,17 @@ public class GrailsResourceResolver extends ResourceResolver {
 	protected String getUriWithinGrailsViews(String relativeUri) {
 		StringBuilder buf = new StringBuilder();
 		String[] tokens;
-		if (relativeUri.startsWith("/"))
+		if (relativeUri.startsWith("/")) {
 			relativeUri = relativeUri.substring(1);
+		}
 
 
-		if (relativeUri.indexOf('/') > -1)
+		if (relativeUri.indexOf('/') > -1) {
 			tokens = relativeUri.split("/");
-		else
+		}
+		else {
 			tokens = new String[]{relativeUri};
+		}
 
 
 		buf.append("/grails-app/views");
@@ -106,16 +101,9 @@ public class GrailsResourceResolver extends ResourceResolver {
 	/**
 	 * Bugfix: Get Resource through resourceLoader OR servletContextLoader
 	 *
-	 * @param uri
-	 * @return
 	 */
-	private Resource getResourceWithinContext(String uri)
-	{
-		System.out.println("GrailsResourceResolver: getResourceWithinContext: " + uri);
-
+	private Resource getResourceWithinContext(String uri) {
 		if (resourceLoader != null) {
-			System.out.println("GrailsResourceResolver: GroovyPageResourceLoader is active");
-
 			if (Environment.getCurrent().isReloadEnabled() && Metadata.getCurrent().isWarDeployed()) {
 				return resourceLoader.getResource(uri);
 			}
@@ -128,7 +116,6 @@ public class GrailsResourceResolver extends ResourceResolver {
 			return resourceLoader.getResource(uri);
 		}
 		else {
-			System.out.println("GrailsResourceResolver: trying to get resource through context");
 			Resource r = servletContextLoader.getResource(uri);
 
 			if (r.exists()) {
@@ -136,20 +123,20 @@ public class GrailsResourceResolver extends ResourceResolver {
 			}
 		}
 
-		System.out.println("GrailsResourceResolver: trying Spring MainContext");
-		Resource r = ApplicationHolder.getApplication().getMainContext().getResource(uri);
+		Resource r = getApplication().getMainContext().getResource(uri);
 		if (r.exists()) {
 			return r;
 		}
 
-		System.out.println("GrailsResourceResolver: trying fixed base path with Spring MainContext");
-		r = ApplicationHolder.getApplication().getMainContext().getResource("/WEB-INF/grails-app/views" + uri);
+		r = getApplication().getMainContext().getResource("/WEB-INF/grails-app/views" + uri);
 		if (r.exists()) {
 			return r;
 		}
-
-		System.out.println("GrailsResourceResolver: couldn't get resource");
 
 		throw new IllegalStateException("ResourceResolver not initialised correctly, no [resourceLoader] specified!");
+	}
+
+	private GrailsApplication getApplication() {
+		return ApplicationHolder.getApplication();
 	}
 }
